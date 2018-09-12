@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<page:NextPageXaml
+    x:Class="OpenDoorController.Views.Login.NextPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:page="clr-namespace:OpenDoorController.Views.Login">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label
+                HorizontalOptions="CenterAndExpand"
+                Text="I'm the new page!!!"
+                VerticalOptions="CenterAndExpand" />
+
+            <Button Command="{Binding BackCommand}" Text="Back" />
+        </StackLayout>
+    </ContentPage.Content>
+</page:NextPageXaml>
