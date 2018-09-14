@@ -8,10 +8,10 @@
         <StackLayout>
             <Label
                 HorizontalOptions="CenterAndExpand"
-                Text="Welcome to Xamarin.Forms!"
+                Text="{Binding ScanResult}"
                 VerticalOptions="CenterAndExpand" />
 
-            <Button Command="{Binding NextPageCommand}" Text="Go to next Page" />
+            <Button Command="{Binding ScanBluetoothCommand}" Text="Scan" />
         </StackLayout>
     </ContentPage.Content>
 </page:LoginPageXaml>

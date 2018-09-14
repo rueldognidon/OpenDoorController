@@ -8,6 +8,11 @@ using Android.Widget;
 using Android.OS;
 using Autofac;
 using OpenDoorController.Shared;
+using Android.Support.V4.Content;
+using Android;
+using Android.Support.V4.App;
+using Plugin.Permissions;
+using Android.Bluetooth;
 
 namespace OpenDoorController.Droid
 {
@@ -22,7 +27,7 @@ namespace OpenDoorController.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            base.OnCreate(bundle);
+            base.OnCreate(bundle);            
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
@@ -46,6 +51,34 @@ namespace OpenDoorController.Droid
             this._app = appLifetimeScope.Resolve<OpenDoorControllerApp>();
 
             this._app.SetLifetimeScope(appLifetimeScope);
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) != Android.Content.PM.Permission.Granted && 
+                ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Android.Content.PM.Permission.Granted &&
+                ContextCompat.CheckSelfPermission(this, Manifest.Permission.Bluetooth) != Android.Content.PM.Permission.Granted &&
+                ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothAdmin) != Android.Content.PM.Permission.Granted)
+            {
+                ActivityCompat.RequestPermissions(this, new String[] 
+                { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation, Manifest.Permission.Bluetooth, Manifest.Permission.BluetoothAdmin }, 0);                                            
+            }
+
+            BluetoothAdapter bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
+
+            if (!bluetoothAdapter.IsEnabled)
+            {
+                bluetoothAdapter.Enable();
+            }
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
